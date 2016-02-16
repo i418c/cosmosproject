@@ -1,2 +1,2 @@
-## Cosmso OS Project
+## Cosmos OS Project
 
