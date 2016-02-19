@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,13 +8,13 @@ namespace CosmosKernel1
 {
     class FileSystem
     {
-        static System.Collections.ArrayList files;
+        static ArrayList files;
 
         public FileSystem()
         {
             if (files==null)
             {
-                files = new System.Collections.ArrayList();
+                files = new ArrayList();
             }
         }
 
@@ -25,11 +25,13 @@ namespace CosmosKernel1
         
         public string[] list()
         {
-            string[] filenames = new string[files.Count];
+            String[] filenames = new String[files.Count];
             var ct = 0;
-            foreach (var file in files)
+            foreach (File file in files)
             {
-                filenames[ct] = String.Format("--{0,10}--", file.getName(), file.getExtension(), file.getDateCreated(), file.getFileSize();
+                //filenames[ct] = String.Format("--{0,10}--", file.getName(), file.getFileExtension(), file.getDateCreated(), file.getFileSize());
+                filenames[ct] = file.getName() + " " + file.getFileExtension() + " " + file.getDateCreated() + " " + file.getFileSize();
+
                 ct++;
             }
             return filenames;

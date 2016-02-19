@@ -7,6 +7,8 @@ namespace CosmosKernel1
 {
     public class Kernel : Sys.Kernel
     {
+
+        Dictionary<String, int> vars = new Dictionary<string, int>();
         private FileSystem fs;
 
         protected override void BeforeRun()
