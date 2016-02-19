@@ -43,6 +43,50 @@
     <Compile Include="FileSystem.cs" />
     <Compile Include="Kernel.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Cosmos.Assembler.log" />
+    <None Include="bin\Debug\CosmosKernel1Boot.asm" />
+    <None Include="bin\Debug\CosmosKernel1Boot.bin" />
+    <None Include="bin\Debug\CosmosKernel1Boot.cdb" />
+    <None Include="bin\Debug\CosmosKernel1Boot.iso" />
+    <None Include="bin\Debug\CosmosKernel1Boot.map" />
+    <None Include="bin\Debug\CosmosKernel1Boot.obj" />
+    <None Include="bin\Debug\iso\Cosmos.bin" />
+    <None Include="bin\Debug\iso\isolinux.bin" />
+    <None Include="bin\Debug\iso\mboot.c32" />
+    <None Include="bin\Debug\iso\syslinux.cfg" />
+    <None Include="CosmosKernel1Boot.Cosmos" />
+    <None Include="obj\Debug\CosmosKernel1.csprojResolveAssemblyReference.cache" />
+    <None Include="obj\Debug\CosmosKernel1Boot.CosmosResolveAssemblyReference.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Cosmos.Common.dll" />
+    <Content Include="bin\Debug\Cosmos.Common.pdb" />
+    <Content Include="bin\Debug\Cosmos.Core.dll" />
+    <Content Include="bin\Debug\Cosmos.Core.pdb" />
+    <Content Include="bin\Debug\Cosmos.Debug.Kernel.dll" />
+    <Content Include="bin\Debug\Cosmos.Debug.Kernel.pdb" />
+    <Content Include="bin\Debug\Cosmos.HAL.dll" />
+    <Content Include="bin\Debug\Cosmos.HAL.pdb" />
+    <Content Include="bin\Debug\Cosmos.System.dll" />
+    <Content Include="bin\Debug\Cosmos.System.pdb" />
+    <Content Include="bin\Debug\CosmosKernel1.dll" />
+    <Content Include="bin\Debug\CosmosKernel1.pdb" />
+    <Content Include="bin\Debug\CosmosKernel1Boot.log.html" />
+    <Content Include="obj\Debug\CosmosKernel1.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\CosmosKernel1.dll" />
+    <Content Include="obj\Debug\CosmosKernel1.pdb" />
+    <Content Include="obj\Debug\CosmosKernel1Boot.Cosmos.FileListAbsolute.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

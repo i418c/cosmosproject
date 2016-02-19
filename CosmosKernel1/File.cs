@@ -18,7 +18,7 @@ namespace CosmosKernel1
             this.name = name;
             this.extension = extension;
 
-            this.dateCreated = GetTimestamp(DateTime.Now);
+            //this.dateCreated = GetTimestamp(DateTime.Now);
         }
 
         public File(String name, String extension, String contents) : this(name, extension)

@@ -8,7 +8,7 @@ namespace CosmosKernel1
     public class Kernel : Sys.Kernel
     {
 
-        Dictionary<String, int> vars = new Dictionary<string, int>();
+        //Dictionary<String, int> vars = new Dictionary<string, int>();
         private FileSystem fs;
 
         protected override void BeforeRun()
@@ -19,7 +19,7 @@ namespace CosmosKernel1
 
         protected override void Run()
         {
-            Console.Write("> ");
+           Console.Write("> ");
             var input = Console.ReadLine();
             var tokens = input.Split(' ');
 
@@ -44,21 +44,29 @@ namespace CosmosKernel1
                     break;
                 case "dir":
                 case "ls":
-                    string[] filenames = fs.list();
-                    foreach(var filename in filenames)
+                    //string[] filenames = fs.list();
+                    /*foreach(var filename in filenames)
                     {
                         Console.WriteLine(filename);
-                    }
+                    }*/
                     break;
                 case "set":
-                    if (!System.Text.RegularExpressions.Regex.Match(tokens[1],"^[$]").Success)
+                    if (tokens.Length <= 2)
                     {
-                        Console.WriteLine("Variables must start with $");
-                    }
-                    else
+                        Console.WriteLine("Error, must supply a valid name and int value.");
+                        break;
+                    } else
                     {
-
+                        // TODO: CREATE VARIABLE AND ADD TO VARIABLES OBJECT
                     }
+                    break;
+                case "add":
+                    break;
+                case "sub":
+                    break;
+                case "mul":
+                    break;
+                case "div":
                     break;
                 default:
                     Console.WriteLine("Unkown Command: " + tokens[0]);

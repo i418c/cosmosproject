@@ -29,8 +29,7 @@ namespace CosmosKernel1
             var ct = 0;
             foreach (File file in files)
             {
-                //filenames[ct] = String.Format("--{0,10}--", file.getName(), file.getFileExtension(), file.getDateCreated(), file.getFileSize());
-                filenames[ct] = file.getName() + " " + file.getFileExtension() + " " + file.getDateCreated() + " " + file.getFileSize();
+                filenames[ct] = String.Format("--{0,10}--", file.getName(), file.getFileExtension(), file.getDateCreated(), file.getFileSize());
 
                 ct++;
             }
