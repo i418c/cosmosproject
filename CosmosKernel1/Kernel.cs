@@ -7,6 +7,8 @@ namespace CosmosKernel1
 {
     public class Kernel : Sys.Kernel
     {
+        Dictionary<String, int> vars = new Dictionary<string, int>();
+
         protected override void BeforeRun()
         {
             Console.WriteLine("Cosmos booted successfully. Type help for a list of commands.");
