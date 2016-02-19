@@ -61,7 +61,7 @@ namespace CosmosKernel1
             return this.contents;
         }
 
-        private int getFileSize()
+        public int getFileSize()
         {
             return contents.Length;
         }

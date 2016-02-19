@@ -7,11 +7,14 @@ namespace CosmosKernel1
 {
     public class Kernel : Sys.Kernel
     {
+
         Dictionary<String, int> vars = new Dictionary<string, int>();
+        private FileSystem fs;
 
         protected override void BeforeRun()
         {
             Console.WriteLine("Cosmos booted successfully. Type help for a list of commands.");
+            fs = new FileSystem();
         }
 
         protected override void Run()
@@ -34,6 +37,28 @@ namespace CosmosKernel1
                         Console.Write(tokens[ct]+" ");
                     }
                     Console.WriteLine("");
+                    break;
+                case "create":
+                    var args = tokens[1].Split('.');
+                    fs.create(args[0],args[1]);
+                    break;
+                case "dir":
+                case "ls":
+                    string[] filenames = fs.list();
+                    foreach(var filename in filenames)
+                    {
+                        Console.WriteLine(filename);
+                    }
+                    break;
+                case "set":
+                    if (!System.Text.RegularExpressions.Regex.Match(tokens[1],"^[$]").Success)
+                    {
+                        Console.WriteLine("Variables must start with $");
+                    }
+                    else
+                    {
+
+                    }
                     break;
                 default:
                     Console.WriteLine("Unkown Command: " + tokens[0]);
