@@ -7,7 +7,6 @@ namespace CosmosKernel1
 {
     public class Kernel : Sys.Kernel
     {
-        //Dictionary<String, int> vars = new Dictionary<string, int
         private Variables globalVars;
         private FileSystem fs;
 
@@ -45,20 +44,24 @@ namespace CosmosKernel1
                     break;
                 case "dir":
                 case "ls":
-                    //string[] filenames = fs.list();
-                    /*foreach(var filename in filenames)
+                    string[] filenames = fs.list();
+                    for (int i = 0; i < filenames.Length; i++)
                     {
+                        String filename = filenames[i];
                         Console.WriteLine(filename);
-                    }*/
+                    }
                     break;
                 case "set":
-                    if (tokens.Length <= 2)
+                    if (tokens.Length < 3)
                     {
                         Console.WriteLine("Error, must supply a valid name and int value.");
                         break;
+                    } else if (tokens[1][0] != '$')
+                    {
+                        Console.WriteLine("Error, variable name must begin with a '$'");
                     } else
                     {
-                        // TODO: CREATE VARIABLE AND ADD TO VARIABLES OBJECT
+                        globalVars.setVar(tokens[1], int.Parse(tokens[2]));
                     }
                     break;
                 case "add":

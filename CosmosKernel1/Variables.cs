@@ -17,8 +17,9 @@ namespace CosmosKernel1
 
         public void setVar(string name, int value)
         {
-            foreach (Variable variable in variables)
+            for (int i = 0; i < variables.Count; i++)
             {
+                Variable variable = (Variable) variables[i];
                 if (variable.getName() == name)
                 {
                     variable.setValue(value);
