@@ -7,14 +7,15 @@ namespace CosmosKernel1
 {
     public class Kernel : Sys.Kernel
     {
-
-        //Dictionary<String, int> vars = new Dictionary<string, int>();
+        //Dictionary<String, int> vars = new Dictionary<string, int
+        private Variables globalVars;
         private FileSystem fs;
 
         protected override void BeforeRun()
         {
             Console.WriteLine("Cosmos booted successfully. Type help for a list of commands.");
             fs = new FileSystem();
+            globalVars = new Variables();
         }
 
         protected override void Run()
