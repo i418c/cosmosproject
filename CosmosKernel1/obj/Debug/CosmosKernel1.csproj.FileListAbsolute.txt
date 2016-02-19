@@ -27,3 +27,4 @@ C:\Users\Cary\Desktop\cosmosproject\CosmosKernel1\bin\Debug\Cosmos.Core.pdb
 C:\Users\Cary\Desktop\cosmosproject\CosmosKernel1\obj\Debug\CosmosKernel1.csprojResolveAssemblyReference.cache
 C:\Users\Cary\Desktop\cosmosproject\CosmosKernel1\obj\Debug\CosmosKernel1.dll
 C:\Users\Cary\Desktop\cosmosproject\CosmosKernel1\obj\Debug\CosmosKernel1.pdb
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\CosmosKernel1\obj\Debug\CosmosKernel1.csprojResolveAssemblyReference.cache
