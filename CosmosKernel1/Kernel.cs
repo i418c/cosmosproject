@@ -32,11 +32,25 @@ namespace CosmosKernel1
                     Console.WriteLine("echo: Any text after this command is displayed on the screen");
                     break;
                 case "echo":
-                    for(int ct = 1; ct < tokens.Length; ct++)
+                    StringBuilder build = new StringBuilder("");
+                    for (int ct = 1; ct < tokens.Length; ct++)
                     {
-                        Console.Write(tokens[ct]+" ");
+                        if (tokens[ct][0] == '$')
+                        {
+                            try {
+                                build.Append(globalVars.getVar(tokens[ct]) + " ");
+                            } catch (Exception e)
+                            {
+                                Console.WriteLine("ERROR: No such variable found \'" + tokens[ct] + "\'");
+                                break;
+                            }
+                        } else
+                        {
+                           build.Append(tokens[ct] + " ");
+                        }
                     }
-                    Console.WriteLine("");
+
+                    Console.WriteLine(build.ToString());
                     break;
                 case "create":
                     var args = tokens[1].Split('.');
@@ -59,18 +73,227 @@ namespace CosmosKernel1
                     } else if (tokens[1][0] != '$')
                     {
                         Console.WriteLine("Error, variable name must begin with a '$'");
+                        break;
                     } else
                     {
                         globalVars.setVar(tokens[1], int.Parse(tokens[2]));
                     }
                     break;
                 case "add":
+                    {
+                        if (tokens.Length < 4)
+                        {
+                            Console.WriteLine("Error, addition requires 3 params");
+                            break;
+                        }
+
+                        int a;
+                        int b;
+
+                        if (tokens[1][0] == '$')
+                        {
+                            try
+                            {
+                                a = globalVars.getVar(tokens[1]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: \'" + tokens[1] + "\' variable not found");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            a = int.Parse(tokens[1]);
+                        }
+
+                        if (tokens[2][0] == '$')
+                        {
+                            try
+                            {
+                                b = globalVars.getVar(tokens[2]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: \'" + tokens[2] + "\' variable not found");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            b = int.Parse(tokens[2]);
+                        }
+
+                        if (tokens[3][0] != '$' && tokens[3].Length > 1)
+                        {
+                            Console.WriteLine("Error: destination variable must begin with \'$\' and contain at least one character");
+                            break;
+                        }
+
+                        globalVars.setVar(tokens[3], a + b);
+                    }
                     break;
                 case "sub":
+                    {
+                        if (tokens.Length < 4)
+                        {
+                            Console.WriteLine("Error, addition requires 3 params");
+                            break;
+                        }
+
+                        int a;
+                        int b;
+
+                        if (tokens[1][0] == '$')
+                        {
+                            try
+                            {
+                                a = globalVars.getVar(tokens[1]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: \'" + tokens[1] + "\' variable not found");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            a = int.Parse(tokens[1]);
+                        }
+
+                        if (tokens[2][0] == '$')
+                        {
+                            try
+                            {
+                                b = globalVars.getVar(tokens[2]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: \'" + tokens[2] + "\' variable not found");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            b = int.Parse(tokens[2]);
+                        }
+
+                        if (tokens[3][0] != '$' && tokens[3].Length > 1)
+                        {
+                            Console.WriteLine("Error: destination variable must begin with \'$\' and contain at least one character");
+                            break;
+                        }
+
+                        globalVars.setVar(tokens[3], a - b);
+                    }
                     break;
                 case "mul":
+                    {
+                        if (tokens.Length < 4)
+                        {
+                            Console.WriteLine("Error, addition requires 3 params");
+                            break;
+                        }
+
+                        int a;
+                        int b;
+
+                        if (tokens[1][0] == '$')
+                        {
+                            try
+                            {
+                                a = globalVars.getVar(tokens[1]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: \'" + tokens[1] + "\' variable not found");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            a = int.Parse(tokens[1]);
+                        }
+
+                        if (tokens[2][0] == '$')
+                        {
+                            try
+                            {
+                                b = globalVars.getVar(tokens[2]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: \'" + tokens[2] + "\' variable not found");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            b = int.Parse(tokens[2]);
+                        }
+
+                        if (tokens[3][0] != '$' && tokens[3].Length > 1)
+                        {
+                            Console.WriteLine("Error: destination variable must begin with \'$\' and contain at least one character");
+                            break;
+                        }
+
+                        globalVars.setVar(tokens[3], a * b);
+                    }
                     break;
                 case "div":
+                    {
+                        if (tokens.Length < 4)
+                        {
+                            Console.WriteLine("Error, addition requires 3 params");
+                            break;
+                        }
+
+                        int a;
+                        int b;
+
+                        if (tokens[1][0] == '$')
+                        {
+                            try
+                            {
+                                a = globalVars.getVar(tokens[1]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: \'" + tokens[1] + "\' variable not found");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            a = int.Parse(tokens[1]);
+                        }
+
+                        if (tokens[2][0] == '$')
+                        {
+                            try
+                            {
+                                b = globalVars.getVar(tokens[2]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: \'" + tokens[2] + "\' variable not found");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            b = int.Parse(tokens[2]);
+                        }
+
+                        if (tokens[3][0] != '$' && tokens[3].Length > 1)
+                        {
+                            Console.WriteLine("Error: destination variable must begin with \'$\' and contain at least one character");
+                            break;
+                        }
+
+                        globalVars.setVar(tokens[3], a / b);
+                    }
                     break;
                 default:
                     Console.WriteLine("Unkown Command: " + tokens[0]);
