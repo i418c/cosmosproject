@@ -9,18 +9,56 @@ namespace CosmosKernel1
     {
         private Variables globalVars;
         private FileSystem fs;
+        private Queue<String> commandQueue;
 
         protected override void BeforeRun()
         {
             Console.WriteLine("Cosmos booted successfully. Type help for a list of commands.");
             fs = new FileSystem();
             globalVars = new Variables();
+            commandQueue = new Queue<string>();
         }
 
         protected override void Run()
         {
-           Console.Write("> ");
+            if (commandQueue.Count != 0)
+            {
+                String cmd = commandQueue.Dequeue();
+                processCommand(cmd);
+                return;
+            }
+
+            Console.Write("> ");
             var input = Console.ReadLine();
+            processCommand(input);
+            return;
+        }
+
+        private void editFile(File file)
+        {
+            Console.WriteLine("Editing File " + file.getName() + "." + file.getFileExtension());
+
+            StringBuilder builder = new StringBuilder(file.getContents());
+            Console.WriteLine(file.getContents());
+
+            while (true)
+            {
+                Console.Write(">");
+                var input = Console.ReadLine();
+                if (input == "save")
+                {
+                    Console.WriteLine("Saving");
+                    file.setContents(builder.ToString());
+                    break;
+                } else
+                {
+                    builder.Append("\n" + input);
+                }
+            }
+        }
+
+        private void processCommand(String input)
+        {
             var tokens = input.Split(' ');
 
             switch (tokens[0])
@@ -37,16 +75,19 @@ namespace CosmosKernel1
                     {
                         if (tokens[ct][0] == '$')
                         {
-                            try {
+                            try
+                            {
                                 build.Append(globalVars.getVar(tokens[ct]) + " ");
-                            } catch (Exception e)
+                            }
+                            catch (Exception e)
                             {
                                 Console.WriteLine("ERROR: No such variable found \'" + tokens[ct] + "\'");
                                 break;
                             }
-                        } else
+                        }
+                        else
                         {
-                           build.Append(tokens[ct] + " ");
+                            build.Append(tokens[ct] + " ");
                         }
                     }
 
@@ -54,31 +95,71 @@ namespace CosmosKernel1
                     break;
                 case "create":
                     var args = tokens[1].Split('.');
-                    fs.create(args[0],args[1]);
+                    editFile(fs.create(args[0], args[1]));
                     break;
                 case "dir":
+                    break;
+                case "run":
+                    {
+                        if (tokens.Length < 2)
+                        {
+                            Console.WriteLine("Error, must provide a valid file to run");
+                            break;
+                        }
+
+                        bool a = fs.exists(tokens[1]);
+
+                        if (!a)
+                        {
+                            Console.WriteLine("Error, file: \"" + tokens[1] + "\" doesn't exist.");
+                            break;
+                        }
+
+                        File file = fs.findFile(tokens[1]);
+
+                        if (file == null)
+                        {
+                            Console.WriteLine("Error, somehow we could not retrieve the file!");
+                        }
+
+                        var lines = file.getContents().Split('\n');
+
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            Console.WriteLine(lines[i]);
+                        }
+
+                        break;
+                    }
                 case "ls":
-                    string[] filenames = fs.list();
-                    for (int i = 0; i < filenames.Length; i++)
                     {
-                        String filename = filenames[i];
-                        Console.WriteLine(filename);
+                        string[] filenames = fs.list();
+                        Console.WriteLine("Number of files: " + filenames.Length);
+                        for (int i = 0; i < filenames.Length; i++)
+                        {
+                            String filename = filenames[i];
+                            Console.WriteLine("File name: " + filename);
+                        }
+                        break;
                     }
-                    break;
                 case "set":
-                    if (tokens.Length < 3)
                     {
-                        Console.WriteLine("Error, must supply a valid name and int value.");
+                        if (tokens.Length < 3)
+                        {
+                            Console.WriteLine("Error, must supply a valid name and int value.");
+                            break;
+                        }
+                        else if (tokens[1][0] != '$')
+                        {
+                            Console.WriteLine("Error, variable name must begin with a '$'");
+                            break;
+                        }
+                        else
+                        {
+                            globalVars.setVar(tokens[1], int.Parse(tokens[2]));
+                        }
                         break;
-                    } else if (tokens[1][0] != '$')
-                    {
-                        Console.WriteLine("Error, variable name must begin with a '$'");
-                        break;
-                    } else
-                    {
-                        globalVars.setVar(tokens[1], int.Parse(tokens[2]));
                     }
-                    break;
                 case "add":
                     {
                         if (tokens.Length < 4)
@@ -301,5 +382,6 @@ namespace CosmosKernel1
                     break;
             }
         }
+
     }
 }

@@ -70,5 +70,10 @@ namespace CosmosKernel1
         {
             return value.ToString("yyyyMMddHHmmssffff");
         }
+
+        public Boolean Equals(File other)
+        {
+            return (this.name.Equals(other.getName()) && this.extension.Equals(other.extension));
+        }
     }
 }
