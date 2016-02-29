@@ -126,7 +126,11 @@ namespace CosmosKernel1
 
                         for (int i = 0; i < lines.Length; i++)
                         {
-                            Console.WriteLine(lines[i]);
+                            //Console.WriteLine(lines[i]);
+                            if (lines[i] != "")
+                            {
+                                commandQueue.Enqueue(lines[i]);
+                            }
                         }
 
                         break;
