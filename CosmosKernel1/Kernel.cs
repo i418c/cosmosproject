@@ -9,23 +9,27 @@ namespace CosmosKernel1
     {
         private Variables globalVars;
         private FileSystem fs;
-        private Queue<String> commandQueue;
+        private Queue<Queue<String>> commandQueue;
 
         protected override void BeforeRun()
         {
             Console.WriteLine("Cosmos booted successfully. Type help for a list of commands.");
             fs = new FileSystem();
             globalVars = new Variables();
-            commandQueue = new Queue<string>();
+            commandQueue = new Queue<Queue<string>>();
         }
 
         protected override void Run()
         {
-            if (commandQueue.Count != 0)
+            while(commandQueue.Count != 0)
             {
-                String cmd = commandQueue.Dequeue();
+                Queue<String> currentBatch = commandQueue.Dequeue();
+                String cmd = currentBatch.Dequeue();
                 processCommand(cmd);
-                return;
+                if (currentBatch.Count != 0)
+                {
+                    commandQueue.Enqueue(currentBatch);
+                }
             }
 
             Console.Write("> ");
@@ -41,9 +45,10 @@ namespace CosmosKernel1
             StringBuilder builder = new StringBuilder(file.getContents());
             Console.WriteLine(file.getContents());
 
+            int ct = 0;
             while (true)
             {
-                Console.Write(">");
+                Console.Write("["+ct+"]: ");
                 var input = Console.ReadLine();
                 if (input == "save")
                 {
@@ -54,6 +59,7 @@ namespace CosmosKernel1
                 {
                     builder.Append("\n" + input);
                 }
+                ct++;
             }
         }
 
@@ -67,7 +73,15 @@ namespace CosmosKernel1
                     Console.WriteLine("The list of commands is as follows:");
                     Console.WriteLine("");
                     Console.WriteLine("help: Displays this list");
+                    Console.WriteLine("create [filename].[extension]: Creates a new file with the given filename and extension.");
                     Console.WriteLine("echo: Any text after this command is displayed on the screen");
+                    Console.WriteLine("dir: Displays list of all files and their basic information.");
+                    Console.WriteLine("run [file]: Runs a specific set of batch commands.");
+                    Console.WriteLine("set [varname] [value]: Sets a variable to some integer value.");
+                    Console.WriteLine("add [varname/value] [varname/value] [varname]: Adds first two and stores in third.");
+                    Console.WriteLine("sub [varname/value] [varname/value] [varname]: Subtracts first two and stores in third.");
+                    Console.WriteLine("mul [varname/value] [varname/value] [varname]: Multiplies first two and stores in third.");
+                    Console.WriteLine("div [varname/value] [varname/value] [varname]: Divides first two and stores in third.");
                     break;
                 case "echo":
                     StringBuilder build = new StringBuilder("");
@@ -98,43 +112,6 @@ namespace CosmosKernel1
                     editFile(fs.create(args[0], args[1]));
                     break;
                 case "dir":
-                    break;
-                case "run":
-                    {
-                        if (tokens.Length < 2)
-                        {
-                            Console.WriteLine("Error, must provide a valid file to run");
-                            break;
-                        }
-
-                        bool a = fs.exists(tokens[1]);
-
-                        if (!a)
-                        {
-                            Console.WriteLine("Error, file: \"" + tokens[1] + "\" doesn't exist.");
-                            break;
-                        }
-
-                        File file = fs.findFile(tokens[1]);
-
-                        if (file == null)
-                        {
-                            Console.WriteLine("Error, somehow we could not retrieve the file!");
-                        }
-
-                        var lines = file.getContents().Split('\n');
-
-                        for (int i = 0; i < lines.Length; i++)
-                        {
-                            //Console.WriteLine(lines[i]);
-                            if (lines[i] != "")
-                            {
-                                commandQueue.Enqueue(lines[i]);
-                            }
-                        }
-
-                        break;
-                    }
                 case "ls":
                     {
                         string[] filenames = fs.list();
@@ -143,6 +120,47 @@ namespace CosmosKernel1
                         {
                             String filename = filenames[i];
                             Console.WriteLine("File name: " + filename);
+                        }
+                        break;
+                    }
+                case "run":
+                    {
+                        if (tokens.Length < 2)
+                        {
+                            Console.WriteLine("Error, must provide a valid file to run");
+                            break;
+                        }
+
+                        for(int ct = 1; ct < tokens.Length; ct++)
+                        {
+                            if (!fs.exists(tokens[ct]))
+                            {
+                                Console.WriteLine("Error, file: \"" + tokens[ct] + "\" doesn't exist.");
+                                break;
+                            }
+
+                            File file = fs.findFile(tokens[ct]);
+
+                            if (file == null)
+                            {
+                                Console.WriteLine("Error, somehow we could not retrieve the file!");
+                            }
+
+                            var lines = file.getContents().Split('\n');
+
+                            Queue<String> newBatch = new Queue<string>();
+                            for (int i = 0; i < lines.Length; i++)
+                            {
+                                //Console.WriteLine(lines[i]);
+                                if (lines[i] != "")
+                                {
+                                    newBatch.Enqueue(lines[i]);
+                                }
+                            }
+                            if (newBatch.Count != 0)
+                            {
+                                commandQueue.Enqueue(newBatch);
+                            }
                         }
                         break;
                     }
