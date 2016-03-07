@@ -26,7 +26,6 @@ namespace CosmosKernel1
         {
             String[] filenames = new String[files.Count];
             
-            //var ct = 0;
             for (int i = 0; i < files.Count; i++)
             {
                 File file = (File)files[i];
@@ -39,12 +38,8 @@ namespace CosmosKernel1
                 builder.Append(file.getDateCreated());
                 builder.Append(" File Size: ");
                 builder.Append(file.getFileSize());
-//                Console.WriteLine(builder.ToString());
 
-                filenames[i] = builder.ToString();// "" + file.getName() + " " + file.getFileExtension() + " " + file.getDateCreated() + " " + file.getFileSize();
-//                Console.WriteLine("Created the string");
-
-                //ct++;
+                filenames[i] = builder.ToString();
             }
             return filenames;
         }

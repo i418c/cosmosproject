@@ -1,7 +1,6 @@
 C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\CosmosKernel1\bin\Debug\CosmosKernel1.dll
 C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\CosmosKernel1\bin\Debug\CosmosKernel1.pdb
 C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\CosmosKernel1\bin\Debug\Cosmos.Common.dll
-C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\CosmosKernel1\bin\Debug\Cosmos.HAL.dll
 C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\CosmosKernel1\bin\Debug\Cosmos.Core.dll
 C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\CosmosKernel1\bin\Debug\Cosmos.System.pdb
 C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\CosmosKernel1\bin\Debug\Cosmos.Debug.Kernel.pdb

@@ -93,10 +93,12 @@ namespace CosmosKernel1
                             {
                                 build.Append(globalVars.getVar(tokens[ct]) + " ");
                             }
+                            //Apparently throwing exceptions causes the OS to crash even if we properly catch them.
+                            //But we can't use a sentinal value either because all integers are valid.
                             catch (Exception e)
                             {
-                                Console.WriteLine("ERROR: No such variable found \'" + tokens[ct] + "\'");
-                                break;
+                                Console.WriteLine("ERROR: "+e.Message);
+                                return;
                             }
                         }
                         else
@@ -151,7 +153,6 @@ namespace CosmosKernel1
                             Queue<String> newBatch = new Queue<string>();
                             for (int i = 0; i < lines.Length; i++)
                             {
-                                //Console.WriteLine(lines[i]);
                                 if (lines[i] != "")
                                 {
                                     newBatch.Enqueue(lines[i]);
