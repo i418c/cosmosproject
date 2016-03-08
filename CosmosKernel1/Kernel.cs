@@ -9,26 +9,30 @@ namespace CosmosKernel1
     {
         private Variables globalVars;
         private FileSystem fs;
-        private Queue<Queue<String>> commandQueue;
+        private Stack<Queue<String>> commandStack;
+        private Queue<String> currentBatch;
 
         protected override void BeforeRun()
         {
             Console.WriteLine("Cosmos booted successfully. Type help for a list of commands.");
             fs = new FileSystem();
             globalVars = new Variables();
-            commandQueue = new Queue<Queue<string>>();
+            commandStack = new Stack<Queue<string>>();
         }
 
         protected override void Run()
         {
-            while(commandQueue.Count != 0)
+            while(commandStack.Count != 0)
             {
-                Queue<String> currentBatch = commandQueue.Dequeue();
+                currentBatch = commandStack.Pop();
                 String cmd = currentBatch.Dequeue();
-                processCommand(cmd);
+                bool psh = processCommand(cmd);
                 if (currentBatch.Count != 0)
                 {
-                    commandQueue.Enqueue(currentBatch);
+                    if (psh == true)
+                    {
+                        commandStack.Push(currentBatch);
+                    }
                 }
             }
 
@@ -63,7 +67,7 @@ namespace CosmosKernel1
             }
         }
 
-        private void processCommand(String input)
+        private bool processCommand(String input)
         {
             var tokens = input.Split(' ');
 
@@ -98,7 +102,7 @@ namespace CosmosKernel1
                             catch (Exception e)
                             {
                                 Console.WriteLine("ERROR: "+e.Message);
-                                return;
+                                return true;
                             }
                         }
                         else
@@ -133,6 +137,49 @@ namespace CosmosKernel1
                             break;
                         }
 
+                        for (int ct = 1; ct < tokens.Length; ct++)
+                        {
+                            if (!fs.exists(tokens[ct]))
+                            {
+                                Console.WriteLine("Error, file: \"" + tokens[ct] + "\" doesn't exist.");
+                                break;
+                            }
+
+                            File file = fs.findFile(tokens[ct]);
+
+                            if (file == null)
+                            {
+                                Console.WriteLine("Error, somehow we could not retrieve the file!");
+                            }
+
+                            commandStack.Push(currentBatch);
+
+                            var lines = file.getContents().Split('\n');
+
+                            Queue<String> newBatch = new Queue<string>();
+                            for (int i = 0; i < lines.Length; i++)
+                            {
+                                if (lines[i] != "")
+                                {
+                                    newBatch.Enqueue(lines[i]);
+                                }
+                            }
+                            if (newBatch.Count != 0)
+                            {
+                                commandStack.Push(newBatch);
+                            }
+                        }
+
+                        return false;
+                    }
+                case "runall":
+                    {
+                        if (tokens.Length < 2)
+                        {
+                            Console.WriteLine("Error, must provide a valid file to run");
+                            break;
+                        }
+
                         for(int ct = 1; ct < tokens.Length; ct++)
                         {
                             if (!fs.exists(tokens[ct]))
@@ -160,7 +207,7 @@ namespace CosmosKernel1
                             }
                             if (newBatch.Count != 0)
                             {
-                                commandQueue.Enqueue(newBatch);
+                                commandStack.Push(newBatch);
                             }
                         }
                         break;
@@ -395,8 +442,15 @@ namespace CosmosKernel1
                             Console.WriteLine("Error: destination variable must begin with \'$\' and contain at least one character");
                             break;
                         }
-
-                        globalVars.setVar(tokens[3], a / b);
+                        if (b == 0)
+                        {
+                            Console.WriteLine("Error, attempt to divide by 0! Don't do that please!");
+                            break;
+                        }
+                        else
+                        {
+                            globalVars.setVar(tokens[3], a / b);
+                        }
                     }
                     break;
                 default:
@@ -404,6 +458,7 @@ namespace CosmosKernel1
                     Console.WriteLine("Type help for a list of commands.");
                     break;
             }
+            return true;
         }
 
     }
