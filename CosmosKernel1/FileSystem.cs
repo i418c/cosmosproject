@@ -24,7 +24,7 @@ namespace CosmosKernel1
         
         public string[] list()
         {
-            String[] filenames = new String[files.Count];
+            string[] filenames = new string[files.Count];
             
             for (int i = 0; i < files.Count; i++)
             {
@@ -44,12 +44,12 @@ namespace CosmosKernel1
             return filenames;
         }
 
-        public File findFile(String fileName)
+        public File findFile(string fileName)
         {
             for (int i = 0; i < files.Count; i++)
             {
                 File fle = (File) files[i];
-                String name = fle.getName() + "." + fle.getFileExtension();
+                string name = fle.getName() + "." + fle.getFileExtension();
                 if (name == fileName)
                 {
                     return fle;
@@ -59,12 +59,12 @@ namespace CosmosKernel1
             return null;
         }
 
-        public bool exists(String file)
+        public bool exists(string file)
         {
             for (int i = 0; i < files.Count; i++)
             {
                 File fle = (File) files[i];
-                String name = fle.getName() + "." + fle.getFileExtension();
+                string name = fle.getName() + "." + fle.getFileExtension();
                 if (name == file)
                 {
                     return true;

@@ -9,33 +9,37 @@ namespace CosmosKernel1
     {
         private Variables globalVars;
         private FileSystem fs;
-        private Stack<Queue<String>> commandStack;
-        private Queue<String> currentBatch;
+        private Stack<Queue<string>> currentProcess;
+        private Queue<Stack<Queue<string>>> commandQueue;
 
         protected override void BeforeRun()
         {
             Console.WriteLine("Cosmos booted successfully. Type help for a list of commands.");
             fs = new FileSystem();
             globalVars = new Variables();
-            commandStack = new Stack<Queue<string>>();
+            currentProcess = null;
+            commandQueue = new Queue<Stack<Queue<string>>>();
         }
 
         protected override void Run()
         {
-            while(commandStack.Count != 0)
+            while(commandQueue.Count != 0)
             {
-                currentBatch = commandStack.Pop();
-                String cmd = currentBatch.Dequeue();
-                bool psh = processCommand(cmd);
+                currentProcess = commandQueue.Dequeue();
+                Queue<string> currentBatch = currentProcess.Pop();
+                string cmd = currentBatch.Dequeue();
                 if (currentBatch.Count != 0)
                 {
-                    if (psh == true)
-                    {
-                        commandStack.Push(currentBatch);
-                    }
+                    currentProcess.Push(currentBatch);
+                }
+                processCommand(cmd);
+                if (currentProcess.Count != 0)
+                {
+                    commandQueue.Enqueue(currentProcess);
                 }
             }
 
+            currentProcess = null;
             Console.Write("> ");
             var input = Console.ReadLine();
             processCommand(input);
@@ -67,7 +71,7 @@ namespace CosmosKernel1
             }
         }
 
-        private bool processCommand(String input)
+        private void processCommand(string input)
         {
             var tokens = input.Split(' ');
 
@@ -80,7 +84,8 @@ namespace CosmosKernel1
                     Console.WriteLine("create [filename].[extension]: Creates a new file with the given filename and extension.");
                     Console.WriteLine("echo: Any text after this command is displayed on the screen");
                     Console.WriteLine("dir: Displays list of all files and their basic information.");
-                    Console.WriteLine("run [file]: Runs a specific set of batch commands.");
+                    Console.WriteLine("run [file]: Runs a specific set of batch commands sequentially.");
+                    Console.WriteLine("runall [file]: Runs a specific set of batch commands in parallel");
                     Console.WriteLine("set [varname] [value]: Sets a variable to some integer value.");
                     Console.WriteLine("add [varname/value] [varname/value] [varname]: Adds first two and stores in third.");
                     Console.WriteLine("sub [varname/value] [varname/value] [varname]: Subtracts first two and stores in third.");
@@ -102,7 +107,7 @@ namespace CosmosKernel1
                             catch (Exception e)
                             {
                                 Console.WriteLine("ERROR: "+e.Message);
-                                return true;
+                                return;
                             }
                         }
                         else
@@ -124,7 +129,7 @@ namespace CosmosKernel1
                         Console.WriteLine("Number of files: " + filenames.Length);
                         for (int i = 0; i < filenames.Length; i++)
                         {
-                            String filename = filenames[i];
+                            string filename = filenames[i];
                             Console.WriteLine("File name: " + filename);
                         }
                         break;
@@ -137,6 +142,8 @@ namespace CosmosKernel1
                             break;
                         }
 
+
+                        Stack<Queue<string>> newProcess = new Stack<Queue<string>>();
                         for (int ct = 1; ct < tokens.Length; ct++)
                         {
                             if (!fs.exists(tokens[ct]))
@@ -150,13 +157,12 @@ namespace CosmosKernel1
                             if (file == null)
                             {
                                 Console.WriteLine("Error, somehow we could not retrieve the file!");
+                                break;
                             }
-
-                            commandStack.Push(currentBatch);
 
                             var lines = file.getContents().Split('\n');
 
-                            Queue<String> newBatch = new Queue<string>();
+                            Queue<string> newBatch = new Queue<string>();
                             for (int i = 0; i < lines.Length; i++)
                             {
                                 if (lines[i] != "")
@@ -166,11 +172,21 @@ namespace CosmosKernel1
                             }
                             if (newBatch.Count != 0)
                             {
-                                commandStack.Push(newBatch);
+                                if (currentProcess != null)
+                                {
+                                    currentProcess.Push(newBatch);
+                                }
+                                else
+                                {
+                                    newProcess.Push(newBatch);
+                                }
                             }
                         }
-
-                        return false;
+                        if(currentProcess == null)
+                        {
+                            commandQueue.Enqueue(newProcess);
+                        }
+                        break;
                     }
                 case "runall":
                     {
@@ -197,7 +213,7 @@ namespace CosmosKernel1
 
                             var lines = file.getContents().Split('\n');
 
-                            Queue<String> newBatch = new Queue<string>();
+                            Queue<string> newBatch = new Queue<string>();
                             for (int i = 0; i < lines.Length; i++)
                             {
                                 if (lines[i] != "")
@@ -207,7 +223,9 @@ namespace CosmosKernel1
                             }
                             if (newBatch.Count != 0)
                             {
-                                commandStack.Push(newBatch);
+                                Stack<Queue<string>> newProcess = new Stack<Queue<string>>();
+                                newProcess.Push(newBatch);
+                                commandQueue.Enqueue(newProcess);
                             }
                         }
                         break;
@@ -458,8 +476,6 @@ namespace CosmosKernel1
                     Console.WriteLine("Type help for a list of commands.");
                     break;
             }
-            return true;
         }
-
     }
 }

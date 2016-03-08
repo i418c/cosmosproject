@@ -39,12 +39,12 @@ namespace Hardware
             return Cosmos.HAL.RTC.Year;
         }
 
-        public static String getDate()
+        public static string getDate()
         {
             return getYear().ToString() + "/" + getMonth().ToString() + "/" + getDay().ToString();
         }
 
-        public static String getTime()
+        public static string getTime()
         {
             return getHour().ToString() + ":" + getMinute().ToString() + ":" + getSecond().ToString();
         }

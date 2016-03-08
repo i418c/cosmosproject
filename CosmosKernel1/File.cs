@@ -8,54 +8,54 @@ namespace CosmosKernel1
 {
     class File
     {
-        private String name = null;
-        private String extension = null;
-        private String contents = null;
-        private String dateCreated = null;
+        private string name = null;
+        private string extension = null;
+        private string contents = null;
+        private string dateCreated = null;
 
-        public File(String name, String extension)
+        public File(string name, string extension)
         {
             this.name = name;
             this.extension = extension;
             this.dateCreated = Hardware.Time.getDate();
         }
 
-        public File(String name, String extension, String contents) : this(name, extension)
+        public File(string name, string extension, string contents) : this(name, extension)
         {
             this.contents = contents;
         }
 
-        public void setName(String name)
+        public void setName(string name)
         {
             this.name = name;
         }
 
-        public String getName()
+        public string getName()
         {
             return this.name;
         }
 
-        public String getFileExtension()
+        public string getFileExtension()
         {
             return extension;
         }
 
-        public void setFileExtension(String extension)
+        public void setFileExtension(string extension)
         {
             this.extension = extension;
         }
 
-        public String getDateCreated()
+        public string getDateCreated()
         {
             return this.dateCreated;
         }
 
-        public void setContents(String contents)
+        public void setContents(string contents)
         {
             this.contents = contents;
         }
 
-        public String getContents()
+        public string getContents()
         {
             return this.contents;
         }
