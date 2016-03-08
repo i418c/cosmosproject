@@ -1,0 +1,15 @@
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Hardware.dll
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Hardware.pdb
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.Common.dll
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.Core.dll
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.Debug.Kernel.dll
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.HAL.dll
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.System.dll
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.Common.pdb
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.Core.pdb
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.HAL.pdb
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.System.pdb
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\bin\Debug\Cosmos.Debug.Kernel.pdb
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\obj\Debug\Hardware.csprojResolveAssemblyReference.cache
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\obj\Debug\Hardware.dll
+C:\Users\i418c\Documents\Visual Studio 2015\Projects\CosmosKernel1\Hardware\obj\Debug\Hardware.pdb

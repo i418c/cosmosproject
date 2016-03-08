@@ -17,7 +17,7 @@ namespace CosmosKernel1
         {
             this.name = name;
             this.extension = extension;
-            this.dateCreated = GetTimestamp();
+            this.dateCreated = Hardware.Time.getDate();
         }
 
         public File(String name, String extension, String contents) : this(name, extension)
@@ -63,14 +63,6 @@ namespace CosmosKernel1
         public int getFileSize()
         {
             return contents.Length;
-        }
-
-        private static String GetTimestamp()
-        {
-            //The DateTime object isn't implemented, so we can't get the date from that.
-            //Presumably we could use the functions under Cosmos.HAL, but these exist in Ring0 and our program is in Ring3,
-            //so we can't call the functions from here.
-            return "This feature cannot be implemented";
         }
 
         public Boolean Equals(File other)
